@@ -1,0 +1,8 @@
+asn1crypto==0.24.0
+cffi==1.11.5
+ConfigArgParse==0.14.0
+cryptography==2.5
+JSON-log-formatter==0.2.0
+prometheus-client==0.5.0
+pycparser==2.19
+six==1.12.0
