@@ -3,11 +3,11 @@ import time
 from datetime import datetime
 from os.path import exists
 
-import json_log_formatter
 from configargparse import ArgumentParser
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.x509.oid import ExtensionOID
+from prettylog import basic_config
 from prometheus_client import start_http_server
 from prometheus_client.core import GaugeMetricFamily, REGISTRY
 
@@ -18,6 +18,8 @@ parser.add_argument('--debug',
                     type=str,
                     help='Debug level logging'
                     )
+parser.add_argument('--log-level', type=str, default="INFO")
+parser.add_argument('--log-format', type=str, default="color")
 
 arguments = parser.parse_args()
 
@@ -46,8 +48,7 @@ class SslExporter(object):
                         f.read(), default_backend()
                     )
                 except ValueError:
-                    log.exception('Cannot read certificate',
-                                  extra={'cert': path})
+                    log.exception('Cannot read certificate - %r', path)
                     return []
             self.get_metrics(cert)
 
@@ -58,14 +59,14 @@ class SslExporter(object):
 
         not_valid_after = cert.not_valid_after
         log.debug(
-            'Ssl not valid after date',
-            extra={'not_valid_after_date': str(not_valid_after)}
+            'Ssl not valid after date - %r',
+            str(not_valid_after)
         )
 
         left = not_valid_after - datetime.utcnow()
         log.debug(
-            'Ssl cert valid days',
-            extra={'valid_days': str(left.days)}
+            'Ssl cert valid days - %r',
+            left.days
         )
 
         ext = cert.extensions.get_extension_for_oid(
@@ -73,8 +74,8 @@ class SslExporter(object):
         )
         dns_names_list = ext.value.get_values_for_type(x509.DNSName)
         log.debug(
-            'DNS names of cert',
-            extra={'dns_names': str(dns_names_list)}
+            'DNS names of cert - %r',
+            dns_names_list
         )
 
         for domain in dns_names_list:
@@ -83,21 +84,18 @@ class SslExporter(object):
 
 
 if __name__ == "__main__":
-    if bool(arguments.debug):
-        log.setLevel(logging.DEBUG)
-    else:
-        log.setLevel(logging.ERROR)
-    handler = logging.StreamHandler()
-    formatter = json_log_formatter.JSONFormatter()
-    handler.setFormatter(formatter)
-    log.addHandler(handler)
+
+    basic_config(level=arguments.log_level.upper(),
+                 buffered=False,
+                 log_format=arguments.log_format
+                 )
 
     paths = [
         path.strip() for path in arguments.cert_paths.split(',')
     ]
     for path in paths:
         if not exists(path):
-            log.error('File %s does not exists', path)
+            log.error('File %r does not exists', path)
             exit(1)
 
     start_http_server(8000)

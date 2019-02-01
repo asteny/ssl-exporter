@@ -6,7 +6,8 @@ services:
     restart: always
     environment:
       APP_CERT_PATHS: /cert1.pem,/cert2.pem,/cert3.pem
-      APP_DEBUG: "True"
+      APP_LOG_LEVEL: DEBUG
+      APP_LOG_FORMAT: json
     ports:
       - "0.0.0.0:9001:8000"
     volumes:
