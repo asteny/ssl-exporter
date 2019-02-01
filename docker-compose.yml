@@ -1,0 +1,15 @@
+version: '2'
+services:
+  ssl-exporter:
+    image: asteny/ssl-exporter
+    hostname: ssl-exporter
+    restart: always
+    environment:
+      APP_CERT_PATHS: /cert1.pem,/cert2.pem,/cert3.pem
+      APP_DEBUG: "True"
+    ports:
+      - "0.0.0.0:9001:8000"
+    volumes:
+      - "/etc/ssl/cert1.pem:/cert1.pem"
+      - "/etc/ssl/cert2.pem:/cert2.pem"
+      - "/etc/ssl/cert3.pem:/cert3.pem"
