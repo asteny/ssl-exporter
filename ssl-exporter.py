@@ -38,7 +38,7 @@ class SslExporter(object):
             'ssl_valid_days',
             'Ssl cert valid days',
             value=None,
-            labels=['domain']
+            labels=['domain', 'serial_number']
         )
 
         for path in self.paths:
@@ -78,9 +78,14 @@ class SslExporter(object):
             dns_names_list
         )
 
+        log.debug(
+            'Ssl cert serial number - %r',
+            cert.serial_number
+        )
+
         for domain in dns_names_list:
             self.gauges['ssl_valid_days'].add_metric(
-                [domain], int(left.days))
+                [domain, str(cert.serial_number)], int(left.days))
 
 
 if __name__ == "__main__":

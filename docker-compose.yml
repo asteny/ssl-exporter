@@ -1,7 +1,7 @@
 version: '2'
 services:
   ssl-exporter:
-    image: asteny/ssl-exporter
+    image: asteny/ssl-exporter:v.0.1
     hostname: ssl-exporter
     restart: always
     environment:
