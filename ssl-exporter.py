@@ -12,6 +12,8 @@ from prometheus_client import start_http_server
 from prometheus_client.core import GaugeMetricFamily, REGISTRY
 
 parser = ArgumentParser(auto_env_var_prefix='APP_')
+parser.add_argument('--host-address', type=str, default='0.0.0.0')
+parser.add_argument('--port', type=int, default='9001')
 parser.add_argument('--cert-paths', required=True, type=str)
 parser.add_argument('--debug',
                     default="",
@@ -103,7 +105,7 @@ if __name__ == "__main__":
             log.error('File %r does not exists', path)
             exit(1)
 
-    start_http_server(8000)
+    start_http_server(addr=arguments.host_address, port=arguments.port)
     collector = SslExporter(paths)
     REGISTRY.register(collector)
     while True:

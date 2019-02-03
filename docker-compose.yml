@@ -9,7 +9,7 @@ services:
       APP_LOG_LEVEL: DEBUG
       APP_LOG_FORMAT: json
     ports:
-      - "0.0.0.0:9001:8000"
+      - "0.0.0.0:9001:9001"
     volumes:
       - "/etc/ssl/cert1.pem:/cert1.pem"
       - "/etc/ssl/cert2.pem:/cert2.pem"
