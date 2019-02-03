@@ -15,11 +15,6 @@ parser = ArgumentParser(auto_env_var_prefix='APP_')
 parser.add_argument('--host-address', type=str, default='0.0.0.0')
 parser.add_argument('--port', type=int, default='9001')
 parser.add_argument('--cert-paths', required=True, type=str)
-parser.add_argument('--debug',
-                    default="",
-                    type=str,
-                    help='Debug level logging'
-                    )
 parser.add_argument('--log-level', type=str, default="INFO")
 parser.add_argument('--log-format', type=str, default="color")
 
