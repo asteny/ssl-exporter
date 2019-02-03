@@ -24,6 +24,7 @@ services:
       APP_CERT_PATHS: /cert1.pem,/cert2.pem,/cert3.pem
       APP_LOG_LEVEL: DEBUG
       APP_LOG_FORMAT: json
+      APP_SENTRY_DSN: "YOU DSN"
     ports:
       - "0.0.0.0:9001:9001"
     volumes:

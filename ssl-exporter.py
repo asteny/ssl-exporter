@@ -10,6 +10,7 @@ from cryptography.x509.oid import ExtensionOID
 from prettylog import basic_config
 from prometheus_client import start_http_server
 from prometheus_client.core import GaugeMetricFamily, REGISTRY
+from raven.handlers.logging import SentryHandler
 
 parser = ArgumentParser(auto_env_var_prefix='APP_')
 parser.add_argument('--host-address', type=str, default='0.0.0.0')
@@ -17,6 +18,7 @@ parser.add_argument('--port', type=int, default='9001')
 parser.add_argument('--cert-paths', required=True, type=str)
 parser.add_argument('--log-level', type=str, default="INFO")
 parser.add_argument('--log-format', type=str, default="color")
+parser.add_argument('--sentry-dsn', type=str, default="")
 
 arguments = parser.parse_args()
 
@@ -91,6 +93,11 @@ if __name__ == "__main__":
                  buffered=False,
                  log_format=arguments.log_format
                  )
+
+    if arguments.sentry_dsn:
+        handler = SentryHandler(arguments.sentry_dsn)
+        handler.setLevel(arguments.log_level.upper())
+        log.addHandler(handler)
 
     paths = [
         path.strip() for path in arguments.cert_paths.split(',')
