@@ -7,7 +7,7 @@ Prometheus exporter for ssl certificates, written in Python.
 #### Docker
 
 ```bash
-docker pull asteny/ssl-exporter:v.0.1
+docker pull asteny/ssl-exporter:v.0.3
 docker run --rm -p 9001:9001 -e "APP_CERT_PATHS=/cert1.pem,/cert2.pem" -v "$(pwd)/cert1.pem:/cert1.pem" -v "$(pwd)/cert2.pem:/cert2.pem" asteny/ssl-exporter:v.0.1
 ```
 
@@ -17,7 +17,7 @@ Example `docker-compose.yml`:
 version: '2'
 services:
   ssl-exporter:
-    image: asteny/ssl-exporter:v.0.1
+    image: asteny/ssl-exporter:v.0.3
     hostname: ssl-exporter
     restart: always
     environment:

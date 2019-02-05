@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 from datetime import datetime
 from os.path import exists
@@ -12,7 +13,10 @@ from prometheus_client import start_http_server
 from prometheus_client.core import GaugeMetricFamily, REGISTRY
 from raven.handlers.logging import SentryHandler
 
-parser = ArgumentParser(auto_env_var_prefix='APP_')
+parser = ArgumentParser(default_config_files=[
+    os.path.join('/etc/ssl-exporter.conf'),
+], auto_env_var_prefix='APP_')
+
 parser.add_argument('--host-address', type=str, default='0.0.0.0')
 parser.add_argument('--port', type=int, default='9001')
 parser.add_argument('--cert-paths', required=True, type=str)
