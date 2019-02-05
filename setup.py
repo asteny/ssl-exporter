@@ -33,7 +33,7 @@ setup(
     ),
     entry_points={
         'console_scripts': [
-            'ssl-exporter = ssl-exporter',
+            'ssl_exporter = ssl_exporter.ssl_exporter:main',
         ],
     },
     extras_require={

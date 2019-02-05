@@ -91,8 +91,7 @@ class SslExporter(object):
                 [domain, str(cert.serial_number)], int(left.days))
 
 
-if __name__ == "__main__":
-
+def main():
     basic_config(level=arguments.log_level.upper(),
                  buffered=False,
                  log_format=arguments.log_format
@@ -116,3 +115,7 @@ if __name__ == "__main__":
     REGISTRY.register(collector)
     while True:
         time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()

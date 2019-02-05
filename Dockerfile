@@ -4,6 +4,6 @@ COPY requirements.txt /tmp/
 
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-COPY ssl-exporter/ssl-exporter.py /ssl-exporter.py
+COPY ssl_exporter/ssl_exporter.py /ssl_exporter.py
 
-CMD ["python", "/ssl-exporter.py"]
+CMD ["python", "/ssl_exporter.py"]
