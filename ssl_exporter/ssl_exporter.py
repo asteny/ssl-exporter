@@ -22,7 +22,7 @@ parser.add_argument('--port', type=int, default='9001')
 parser.add_argument('--cert-paths', required=True, type=str)
 parser.add_argument('--log-level', type=str, default="INFO")
 parser.add_argument('--log-format', type=str, default="color")
-parser.add_argument('--sentry-dsn', type=str, default="")
+parser.add_argument('--sentry-dsn', type=str)
 
 arguments = parser.parse_args()
 
@@ -97,7 +97,7 @@ def main():
                  log_format=arguments.log_format
                  )
 
-    if arguments.sentry_dsn:
+    if arguments.sentry_dsn is not None:
         handler = SentryHandler(arguments.sentry_dsn)
         handler.setLevel(arguments.log_level.upper())
         log.addHandler(handler)
