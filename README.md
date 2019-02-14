@@ -4,6 +4,12 @@ Prometheus exporter for ssl certificates, written in Python.
 
 ### Installation
 
+#### pip
+
+```bash
+pip install git+https://github.com/asteny/ssl-exporter
+```
+
 #### Docker
 
 ```bash
@@ -31,4 +37,11 @@ services:
       - "/etc/ssl/cert1.pem:/cert1.pem"
       - "/etc/ssl/cert2.pem:/cert2.pem"
       - "/etc/ssl/cert3.pem:/cert3.pem"
+```
+
+### Example metric
+
+```bash
+ssl_valid_days{domain="*.example.ru",serial_number="cert_serial_number"} 81.0
+ssl_valid_days{domain="example.ru",serial_number="cert_serial_number"} 81.0
 ```
