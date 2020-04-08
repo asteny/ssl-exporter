@@ -1,0 +1,23 @@
+[Unit]
+Description=Prometheus exporter for ssl certs.
+Documentation=https://github.com/asteny/ssl-exporter
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+
+Restart=always
+RestartSec=5
+
+TimeoutStartSec=5
+TimeoutStopSec=10
+
+EnvironmentFile=-/etc/default/ssl-exporter
+
+PIDFile=/var/run/ssl-exporter.pid
+ExecStart=/usr/bin/ssl-exporter $CMD_OPTS
+
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT

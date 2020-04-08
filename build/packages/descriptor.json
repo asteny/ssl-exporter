@@ -1,0 +1,42 @@
+{
+    "package": {
+        "name": "ssl-exporter",
+        "repo": "ssl-exporter",
+        "subject": "asten",
+        "desc": "Prometheus exporter for ssl certificates",
+        "website_url": "https://github.com/asteny/ssl-exporter",
+        "issue_tracker_url": "https://github.com/asteny/ssl-exporter/issues",
+        "vcs_url": "https://github.com/asteny/ssl-exporter/releases",
+        "github_use_tag_release_notes": true,
+        "licenses": ["MIT"],
+        "labels": ["prometheus", "prometheus-exporter", "monitoring", "ssl-exporter"],
+        "public_download_numbers": true,
+        "public_stats": true
+    },
+
+    "version": {
+        "name": "0.5",
+        "desc": "",
+        "released": "2020-04-08",
+        "vcs_tag": "0.5",
+        "gpgSign": true
+    },
+
+    "files":
+    [{"includePattern": "build/packages/(.*\_xenial\.deb)", "uploadPattern": "pool/main/s/ssl-exporter/$1",
+    "matrixParams": {
+        "deb_distribution": "xenial",
+        "deb_component": "main",
+        "deb_architecture": "amd64",
+        "override": 1 }
+    },
+    {"includePattern": "build/packages/(.*\_bionic\.deb)", "uploadPattern": "pool/main/s/ssl-exporter/$1",
+    "matrixParams": {
+        "deb_distribution": "bionic",
+        "deb_component": "main",
+        "deb_architecture": "amd64",
+        "override": 1 }
+    }
+    ],
+    "publish": true
+}

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+DESC="Prometheus exporter for ssl certificates"
+
+/bin/systemctl daemon-reload
+
+exit 0
+

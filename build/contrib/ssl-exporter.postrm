@@ -1,0 +1,33 @@
+#!/bin/bash
+
+
+DESC="Prometheus exporter for ssl certificates"
+
+case "$1" in
+  remove)
+    /bin/systemctl stop ssl-exporter
+  ;;
+
+  upgrade)
+    /bin/systemctl restart ssl-exporter
+  ;;
+
+  purge)
+    /usr/sbin/deluser ${USER}
+    /usr/sbin/delgroup ${GROUP}
+    /bin/rm -fr /etc/default/ssl-exporter /etc/ssl-exporter.conf
+  ;;
+
+  remove|failed-upgrade|abort-install|abort-upgrade|disappear)
+    /bin/systemctl restart ssl-exporter
+    exit 0
+  ;;
+
+  *)
+    echo "postrm called with unknown argument \`$1'" >&2
+    exit 1
+  ;;
+
+esac
+
+exit 0
