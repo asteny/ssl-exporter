@@ -12,7 +12,7 @@ build_xenial: download_xenial
 		-v $(VERSION) \
 		--iteration $(ITERATION) \
 		--after-install build/contrib/$(NAME).postinstall \
-		--after-remove build/contrib/$(NAME)r.postrm \
+		--after-remove build/contrib/$(NAME).postrm \
 		-p build/packages \
 		build/contrib/$(NAME).service=/lib/systemd/system/$(NAME).service \
 		build/contrib/$(NAME).defaults=/etc/default/$(NAME) \
@@ -27,7 +27,7 @@ build_bionic: download_bionic
 		-v $(VERSION) \
 		--iteration $(ITERATION) \
 		--after-install build/contrib/$(NAME).postinstall \
-		--after-remove build/contrib/$(NAME)r.postrm \
+		--after-remove build/contrib/$(NAME).postrm \
 		-p build/packages \
 		build/contrib/$(NAME).service=/lib/systemd/system/$(NAME).service \
 		build/contrib/$(NAME).defaults=/etc/default/$(NAME) \
