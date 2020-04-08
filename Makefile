@@ -35,8 +35,8 @@ build_bionic: download_bionic
 		build/contrib/$(NAME).conf=/etc/$(NAME).conf \
 		/tmp/$(NAME)_ubuntu-18.04=/usr/bin/$(NAME)
 
-build_xenial:
+download_xenial:
 	cd /tmp && wget https://github.com/asteny/ssl-exporter/releases/download/v$(VERSION)/ssl_exporter_ubuntu-16.04
 
-build_bionic
+download_bionic:
 	cd /tmp && wget https://github.com/asteny/ssl-exporter/releases/download/v$(VERSION)/ssl_exporter_ubuntu-18.04
