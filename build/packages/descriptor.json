@@ -23,14 +23,14 @@
     },
 
     "files":
-    [{"includePattern": "build/packages/(.*\_xenial\.deb)", "uploadPattern": "pool/main/s/ssl-exporter/$1",
+    [{"includePattern": "build/packages/(.*\-xenial.*\.deb)", "uploadPattern": "pool/main/s/ssl-exporter/$1",
     "matrixParams": {
         "deb_distribution": "xenial",
         "deb_component": "main",
         "deb_architecture": "amd64",
         "override": 1 }
     },
-    {"includePattern": "build/packages/(.*\_bionic\.deb)", "uploadPattern": "pool/main/s/ssl-exporter/$1",
+    {"includePattern": "build/packages/(.*\-bionic.*\.deb)", "uploadPattern": "pool/main/s/ssl-exporter/$1",
     "matrixParams": {
         "deb_distribution": "bionic",
         "deb_component": "main",
