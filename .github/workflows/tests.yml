@@ -18,7 +18,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        pip install -Ue '.[develop]'
+        pip install -r requirements.dev.txt
     - name: Lint with pylama
       run: |
         pylama ssl_exporter
