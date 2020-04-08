@@ -3,40 +3,30 @@ from __future__ import absolute_import, print_function
 from setuptools import setup, find_packages
 
 
-__version__ = '0.4'
-__author__ = 'Pavel Sofrony <pavel@sofrony.ru>'
+__version__ = "0.5"
+__author__ = "Pavel Sofrony <pavel@sofrony.ru>"
+
+
+def load_requirements(fname):
+    """ load requirements from a pip requirements file """
+    with open(fname) as f:
+        line_iter = (line.strip() for line in f.readlines())
+        return [line for line in line_iter if line and line[0] != "#"]
 
 
 setup(
-    name='ssl-exporter',
+    name="ssl-exporter",
     version=__version__,
     author=__author__,
-    author_email='pavel@sofrony.ru',
+    author_email="pavel@sofrony.ru",
     license="MIT",
     description="Prometheus exporter for ssl certs",
     platforms="all",
     packages=find_packages(),
-    install_requires=(
-        'asn1crypto==0.24.0',
-        'cffi==1.11.5',
-        'colorlog==4.0.2',
-        'ConfigArgParse==0.14.0',
-        'cryptography==2.5',
-        'fast-json==0.3.2',
-        'JSON-log-formatter==0.2.0',
-        'prettylog==0.2.0',
-        'prometheus-client==0.5.0',
-        'pycparser==2.19',
-        'raven==6.10.0',
-        'six==1.12.0',
-        'ujson==1.35',
-    ),
+    install_requires=load_requirements("requirements.txt"),
+    extras_require={"develop": load_requirements("requirements.dev.txt")},
+    python_requires=">=3.7",
     entry_points={
-        'console_scripts': [
-            'ssl_exporter = ssl_exporter.ssl_exporter:main',
-        ],
-    },
-    extras_require={
-        ':python_version < "3.7"': 'typing >= 3.6.5',
+        "console_scripts": ["ssl_exporter = ssl_exporter.ssl_exporter:main"]
     },
 )
