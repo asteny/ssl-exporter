@@ -31,12 +31,12 @@ jobs:
         run: |
           mkdir -p ./dist/${{ matrix.os }}
           pyinstaller --distpath ./dist/${{ matrix.os }} main.spec
-          mv ./dist/${{ matrix.os }}/ssl_exporter ./dist/${{ matrix.os }}/ssl_exporter_${{ matrix.os }}
+          mv ./dist/${{ matrix.os }}/ssl-exporter ./dist/${{ matrix.os }}/ssl-exporter_${{ matrix.os }}
           ls -lah ./dist/${{ matrix.os }}
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./dist/${{ matrix.os }}/ssl_exporter_${{ matrix.os }}
+            ./dist/${{ matrix.os }}/ssl-exporter_${{ matrix.os }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
