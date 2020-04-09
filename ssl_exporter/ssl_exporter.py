@@ -54,7 +54,7 @@ class SslExporter(object):
             yield data
 
     def get_metrics(self, path: Path):
-        with open(path, "rb") as f:
+        with path.open("rb") as f:
             try:
                 cert = x509.load_pem_x509_certificate(
                     f.read(), default_backend()
