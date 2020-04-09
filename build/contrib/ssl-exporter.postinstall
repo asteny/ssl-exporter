@@ -4,6 +4,7 @@
 DESC="Prometheus exporter for ssl certificates"
 
 /bin/systemctl daemon-reload
+/bin/chmod +x /usr/bin/ssl-exporter
 
 exit 0
 
