@@ -9,6 +9,18 @@ Prometheus exporter for ssl certificates, written in Python.
 ```bash
 pip install git+https://github.com/asteny/ssl-exporter
 ```
+#### Deb package for Ubuntu (16.04 - 18.04)
+
+```bash
+apt-get update
+apt-get install gnupg2 apt-transport-https ca-certificates -y
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61
+echo "deb https://dl.bintray.com/asten/ssl-exporter xenial main" | tee -a /etc/apt/sources.list.d/ssl-exporter.list
+apt-get update
+# For xenial
+apt-get install ssl-exporter-xenial -y
+# For bionic
+apt-get install ssl-exporter-bionic -y```
 
 #### Docker
 
