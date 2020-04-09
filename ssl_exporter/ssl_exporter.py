@@ -20,7 +20,7 @@ parser = ArgumentParser(
 
 parser.add_argument("--host-address", type=str, default="0.0.0.0")
 parser.add_argument("--port", type=int, default="9001")
-parser.add_argument("--cert-paths", required=True, type=str)
+parser.add_argument("--cert-paths", nargs="+", type=Path)
 parser.add_argument("--log-level", type=str, default="INFO")
 parser.add_argument("--log-format", type=str, default="color")
 
@@ -32,7 +32,7 @@ log = logging.getLogger()
 class SslExporter(object):
     gauges = {}
 
-    def __init__(self, cert_paths: str):
+    def __init__(self, cert_paths):
         self.cert_paths = cert_paths
 
     def collect(self):
@@ -44,9 +44,7 @@ class SslExporter(object):
             labels=["domain", "file_name", "serial_number"],
         )
 
-        paths = [path.strip() for path in self.cert_paths.split(",")]
-        for p in paths:
-            path = Path(p)
+        for path in self.cert_paths:
             if not path.exists():
                 log.error("File %r does not exists", path)
                 exit(1)
