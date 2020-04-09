@@ -1,5 +1,5 @@
 NAME = ssl-exporter
-VERSION = 0.5
+VERSION = 0.6
 ITERATION = 0
 UID ?= 0
 
