@@ -2,7 +2,7 @@ import logging
 import os
 import time
 from datetime import datetime
-from os.path import exists
+from pathlib import Path
 
 from configargparse import ArgumentParser
 from cryptography import x509
@@ -12,7 +12,6 @@ from cryptography.x509.extensions import ExtensionNotFound
 from prettylog import basic_config
 from prometheus_client import start_http_server
 from prometheus_client.core import GaugeMetricFamily, REGISTRY
-from raven.handlers.logging import SentryHandler
 
 parser = ArgumentParser(
     default_config_files=[os.path.join("/etc/ssl-exporter.conf")],
@@ -24,7 +23,6 @@ parser.add_argument("--port", type=int, default="9001")
 parser.add_argument("--cert-paths", required=True, type=str)
 parser.add_argument("--log-level", type=str, default="INFO")
 parser.add_argument("--log-format", type=str, default="color")
-parser.add_argument("--sentry-dsn", type=str)
 
 arguments = parser.parse_args()
 
@@ -34,8 +32,8 @@ log = logging.getLogger()
 class SslExporter(object):
     gauges = {}
 
-    def __init__(self, paths):
-        self.paths = paths
+    def __init__(self, cert_paths: str):
+        self.cert_paths = cert_paths
 
     def collect(self):
 
@@ -46,13 +44,18 @@ class SslExporter(object):
             labels=["domain", "file_name", "serial_number"],
         )
 
-        for path in self.paths:
-            self.get_metrics(path.strip())
+        paths = [path.strip() for path in self.cert_paths.split(",")]
+        for p in paths:
+            path = Path(p)
+            if not path.exists():
+                log.error("File %r does not exists", path)
+                exit(1)
+            self.get_metrics(path)
 
         for name, data in self.gauges.items():
             yield data
 
-    def get_metrics(self, path):
+    def get_metrics(self, path: Path):
         with open(path, "rb") as f:
             try:
                 cert = x509.load_pem_x509_certificate(
@@ -61,7 +64,7 @@ class SslExporter(object):
             except ValueError:
                 log.exception("Cannot read certificate - %r", path)
                 return []
-        file_name = path.split("/")[-1]
+        file_name = path.name
         log.debug("File name of cert - %r", file_name)
 
         not_valid_after = cert.not_valid_after
@@ -95,19 +98,8 @@ def main():
         log_format=arguments.log_format,
     )
 
-    if arguments.sentry_dsn is not None:
-        handler = SentryHandler(arguments.sentry_dsn)
-        handler.setLevel(arguments.log_level.upper())
-        log.addHandler(handler)
-
-    paths = [path.strip() for path in arguments.cert_paths.split(",")]
-    for path in paths:
-        if not exists(path):
-            log.error("File %r does not exists", path)
-            exit(1)
-
     start_http_server(addr=arguments.host_address, port=arguments.port)
-    collector = SslExporter(paths)
+    collector = SslExporter(arguments.cert_paths)
     REGISTRY.register(collector)
     while True:
         time.sleep(1)
