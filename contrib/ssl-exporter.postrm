@@ -13,9 +13,7 @@ case "$1" in
   ;;
 
   purge)
-    /usr/sbin/deluser ${USER}
-    /usr/sbin/delgroup ${GROUP}
-    /bin/rm -fr /etc/default/ssl-exporter /etc/ssl-exporter.conf
+    /bin/rm -fr /usr/local/bin/ssl-exporter /etc/default/ssl-exporter /etc/ssl-exporter.conf
   ;;
 
   remove|failed-upgrade|abort-install|abort-upgrade|disappear)

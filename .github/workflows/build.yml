@@ -10,11 +10,15 @@ jobs:
     name: Upload Release Asset
     strategy:
       matrix:
-        python-version: [3.7]
-        os:
-          - ubuntu-16.04
-          - ubuntu-18.04
-          - macos-10.15
+        include:
+          - os: ubuntu-16.04
+            python-version: 3.7
+          - os: ubuntu-18.04
+            python-version: 3.7
+          - os: ubuntu-20.04
+            python-version: 3.8
+          - os: macos-latest
+            python-version: 3.8
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
